@@ -63,7 +63,7 @@ data:
       
     # use this resolver, if dynamic resolver doesnt work  
     #resolvers static-k8s
-      #nameserver dns1 1.1.1.1:53
+      #nameserver dns1 1.1.1.1:53 # type your dns server
       #resolve_retries 3
       #timeout resolve 1s
       #timeout retry 1s
