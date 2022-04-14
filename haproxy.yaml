@@ -51,6 +51,7 @@ data:
     	stats show-legends
     	stats admin if TRUE
     
+    # dynamic resolver
     resolvers k8s
       parse-resolv-conf
       hold other           10s
@@ -59,6 +60,15 @@ data:
       hold timeout         10s
       hold valid           10s
       hold obsolete        10s
+      
+    # use this resolver, if dynamic resolver doesnt work  
+    #resolvers static-k8s
+      #nameserver dns1 1.1.1.1:53
+      #resolve_retries 3
+      #timeout resolve 1s
+      #timeout retry 1s
+      #hold valid 10s
+     #hold obsolete 30s      
     
     frontend redis-read
     	bind *:6380
@@ -90,6 +100,31 @@ data:
     	tcp-check send PING\r\n
     	tcp-check expect string +PONG
       server-template redis 3 _tcp-redis._tcp.redis-headless.redis.svc.cluster.local:6379 check inter 1s resolvers k8s init-addr none
+
+    # if static resolver is used
+    # backend redis-primary
+    #   mode tcp
+    #   option tcp-check
+    #   tcp-check send info\ replication\r\n
+    #   tcp-check expect string role:master
+    #   tcp-check comment QUIT\ phase
+    #   tcp-check send QUIT\r\n
+    #   tcp-check expect string +OK
+    #   server redis_backend_01 redis-sentinel-node-0.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
+    #   server redis_backend_02 redis-sentinel-node-1.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
+    #   server redis_backend_03 redis-sentinel-node-2.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
+
+    # if static resolver is used
+    # backend redis-online
+    #   mode tcp
+    #   option tcp-check
+    #   tcp-check send PING\r\n
+    #   tcp-check expect string +PONG
+    #   tcp-check send QUIT\r\n
+    #   tcp-check expect string +OK
+    #   server redis_backend_01 redis-sentinel-node-0.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
+    #   server redis_backend_02 redis-sentinel-node-1.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
+    #   server redis_backend_03 redis-sentinel-node-2.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
 
 ---
 apiVersion: apps/v1
