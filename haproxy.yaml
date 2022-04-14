@@ -110,9 +110,9 @@ data:
     #   tcp-check comment QUIT\ phase
     #   tcp-check send QUIT\r\n
     #   tcp-check expect string +OK
-    #   server redis_backend_01 redis-sentinel-node-0.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
-    #   server redis_backend_02 redis-sentinel-node-1.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
-    #   server redis_backend_03 redis-sentinel-node-2.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
+    #   server redis_backend_01 redis-node-0.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
+    #   server redis_backend_02 redis-node-1.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
+    #   server redis_backend_03 redis-node-2.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
 
     # if static resolver is used
     # backend redis-online
@@ -122,9 +122,9 @@ data:
     #   tcp-check expect string +PONG
     #   tcp-check send QUIT\r\n
     #   tcp-check expect string +OK
-    #   server redis_backend_01 redis-sentinel-node-0.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
-    #   server redis_backend_02 redis-sentinel-node-1.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
-    #   server redis_backend_03 redis-sentinel-node-2.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
+    #   server redis_backend_01 redis-node-0.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
+    #   server redis_backend_02 redis-node-1.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
+    #   server redis_backend_03 redis-node-2.redis-headless.redis.svc.cluster.local:6379 check resolvers static-k8s inter 1s
 
 ---
 apiVersion: apps/v1
